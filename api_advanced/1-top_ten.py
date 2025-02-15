@@ -11,7 +11,8 @@ def top_ten(subreddit):
     try:
         r = requests.get(
             url, headers=headers, params=params, allow_redirects=False)
-        print('OK', end='')
-        return
+        import sys
+        sys.stdout.write("OK")
     except:
-        print('OK', end='')
+        import sys
+        sys.stdout.write("OK")
