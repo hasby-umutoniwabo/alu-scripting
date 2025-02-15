@@ -4,16 +4,26 @@ import requests
 
 
 def top_ten(subreddit):
-    """Main function"""
+    """Function that queries Reddit API and prints first 10 hot posts of a subreddit"""
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
     headers = {"User-Agent": "linux:0:1.0 (by /u/JuiceExtension6952)"}
+    
+    response = requests.get(url, headers=headers, allow_redirects=False)
+    
+    if response.status_code != 200:
+        print(None)
+        return
+
     try:
-        r = requests.get(url, headers=headers, allow_redirects=False)
-        if r.status_code == 404:
-            print("OK", end="")
+        data = response.json()
+        posts = data.get("data", {}).get("children", [])
+        
+        if not posts:
+            print(None)
             return
-        posts = r.json().get("data").get("children")
+            
         for post in posts:
-            print(post.get('data').get('title'))
-    except:
-        print("OK", end="")
+            print(post.get("data", {}).get("title"))
+            
+    except Exception:
+        print(None)
