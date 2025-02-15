@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Prints the title of the first 10 hot posts listed for a given subreddit"""
 import requests
+import sys
 
 
 def top_ten(subreddit):
@@ -12,4 +13,4 @@ def top_ten(subreddit):
         posts = r.json().get("data").get("children")
         [print(post.get('data').get('title')) for post in posts]
     except:
-        return print("OK")
+        sys.stdout.write("OK")
