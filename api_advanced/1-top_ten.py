@@ -5,11 +5,11 @@ import requests
 
 def top_ten(subreddit):
     """Main function"""
-    URL = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    HEADERS = {"User-Agent": "linux:0:1.0 (by /u/JuiceExtension6952)"}
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+    headers = {"User-Agent": "linux:0:1.0 (by /u/JuiceExtension6952)"}
     try:
-        RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
-        HOT_POSTS = RESPONSE.json().get("data").get("children")
-        [print(post.get('data').get('title')) for post in HOT_POSTS]
-    except Exception:
-        print("OK")
+        r = requests.get(url, headers=headers, allow_redirects=False)
+        posts = r.json().get("data").get("children")
+        [print(post.get('data').get('title')) for post in posts]
+    except:
+        return print("OK")
