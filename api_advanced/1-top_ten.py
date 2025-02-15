@@ -9,20 +9,21 @@ def top_ten(subreddit):
     headers = {"User-Agent": "linux:0:1.0 (by /u/JuiceExtension6952)"}
     params = {"limit": 10}
 
-    response = requests.get(url, headers=headers, params=params,
-                          allow_redirects=False)
+    r = requests.get(
+        url, headers=headers, params=params, allow_redirects=False)
 
-    if response.status_code != 200:
+    if r.status_code == 404:
         print("None")
         return
 
-    try:
-        data = response.json().get("data", {}).get("children", [])
-        if not data:
+    if r.status_code == 200:
+        try:
+            data = r.json().get("data", {}).get("children", [])
+            for post in data:
+                title = post.get("data", {}).get("title")
+                print(title)
+        except Exception:
             print("None")
             return
-        for post in data:
-            title = post.get("data", {}).get("title")
-            print(title)
-    except Exception:
+    else:
         print("None")
