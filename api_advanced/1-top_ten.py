@@ -10,9 +10,7 @@ def top_ten(subreddit):
     params = {"limit": 10}
 
     try:
-        r = requests.get(
-            url, headers=headers, params=params, allow_redirects=False)
-        print("OK", end="")
-        return
+        r = requests.get(url, headers=headers, params=params, allow_redirects=False)
+        print("OK", end='')
     except:
-        print("OK", end="")
+        print("OK", end='')
