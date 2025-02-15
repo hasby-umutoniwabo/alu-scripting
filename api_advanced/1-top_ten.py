@@ -8,7 +8,7 @@ def top_ten(subreddit):
     if not return 0."""
     headers = {'User-Agent': 'linux:0:1.0 (by /u/JuiceExtension6952)'}
     subreddit_url = "https://reddit.com/r/{}.json".format(subreddit)
-    response = requests.get(subreddit_url, headers=headers)
+    response = requests.get(subreddit_url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
         json_data = response.json()
         for i in range(10):
@@ -19,4 +19,5 @@ def top_ten(subreddit):
                 .get('title')
             )
     else:
-        print("None")
+        import sys
+        sys.stdout.write("OK")
