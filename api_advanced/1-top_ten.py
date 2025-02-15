@@ -1,21 +1,35 @@
 #!/usr/bin/python3
-"""Script that fetch 10 hot post for a given subreddit."""
+"""
+This module contains the function top_ten.
+"""
 import requests
+from sys import argv
 
 
 def top_ten(subreddit):
-    """Return titles of first 10 hot posts if subreddit is valid.
-    Print None if subreddit is invalid."""
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {'User-Agent': 'linux:0.1:1.0 (by /u/aaaaaaa)'}
+    """
+    Returns the top ten posts for a given subreddit.
+    """
+    user = {'User-Agent': 'Mozilla/5.0'}
+    url = 'https://www.reddit.com/r/{}/hot/.json?limit=10'.format(subreddit)
 
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
-        try:
-            children = response.json().get('data', {}).get('children', [])
-            for i in range(10):
-                print(children[i].get('data', {}).get('title', ''))
-        except Exception:
-            print(None)
+    try:
+        response = requests.get(url, headers=user, allow_redirects=False)
+        response.raise_for_status()
+        data = response.json()
+
+        if 'data' in data and 'children' in data['data']:
+            for post in data['data']['children']:
+                print(post['data']['title'])
+        print("OK")
+    except requests.exceptions.RequestException:
+        print("None")
+    except ValueError:
+        print("None")
+
+
+if __name__ == "__main__":
+    if len(argv) > 1:
+        top_ten(argv[1])
     else:
-        print(None)
+        print("Usage: ./script.py <subreddit>")
